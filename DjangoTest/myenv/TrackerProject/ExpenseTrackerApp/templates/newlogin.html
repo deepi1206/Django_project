@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <table id="expenseTable">
+        <thead>
+            <tr>
+                <th>Month</th>
+                <th>Expense Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Jan</td>
+                <td>200</td>
+            </tr>
+            <tr>
+                <td>Feb</td>
+                <td>150</td>
+            </tr>
+            <!-- Add more rows as needed -->
+        </tbody>
+    </table>
+
+    <canvas id="expenseChart" width="200" height="100"></canvas>
+
+    <script>
+        // Extract data from the table
+        var expenseData = {
+            labels: [],
+            datasets: [{
+                label: 'Expenses',
+                data: [],
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        };
+
+        var tableRows = document.getElementById('expenseTable').querySelectorAll('tbody tr');
+        tableRows.forEach(function(row) {
+            var columns = row.querySelectorAll('td');
+            expenseData.labels.push(columns[0].textContent);
+            expenseData.datasets[0].data.push(parseFloat(columns[1].textContent));
+        });
+
+        // Create the chart
+        var ctx = document.getElementById('expenseChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: expenseData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

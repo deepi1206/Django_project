@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login or Sign Up</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-container {
+            background-color: rgb(24, 23, 23);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 500px;
+            color:white
+        }
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #eeeaea;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #f8f6f6;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="password"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .form-group input[type="email"],
+        .form-group input[type="number"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #23b1c4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #23b1c4;
+        }
+        .form-group .switch {
+            text-align: center;
+        }
+        .form-group .switch a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        .titlename {
+            text-align: center;
+            margin-top: 20px; /* Adjust margin as needed */
+            color:#52dfb0;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login or Sign Up</h2>
+        {%if error_message%}
+            <script>
+                // Display the error message as an alert
+                alert("{{ error_message }}");
+            </script>
+        {%endif%}
+        <form method="post" id="loginForm" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Login</button>
+            </div>
+            <div class="form-group switch">
+                <span>Don't have an account? <a href="#"  style="text-decoration: none; color:white" onclick="switchForm('signupForm')">Sign Up</a></span>
+            </div>
+        </form>
+
+        <form method="post" id="signupForm" action="{% url 'signup' %}" style="display: none;">
+            {% csrf_token %}
+            <div>
+                <h1 class="titlename">Welcome to Daily Expenses Tracker</h1>
+            </div>
+            <div class="form-group">
+                <label for="newname">Name:</label>
+                <input type="text" id="newname" name="newname" required>
+            </div>
+            <div class="form-group">
+                <label for="newUsername">Username:</label>
+                <input type="text" id="newUsername" name="newUsername" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="newPassword">Password:</label>
+                <input type="password" id="newPassword" name="newPassword" required>
+            </div>
+            <div class="form-group">
+                <label for="monthlyBudget">Monthly Budget:</label>
+                <input type="number" id="monthlyBudget" name="monthlyBudget" min="0.01" step="0.01">
+            </div>
+            <div class="form-group">
+                <button type="submit">Sign Up</button>
+            </div>
+            <div class="form-group switch">
+                <span>Already have an account? <a href="#" style="text-decoration: none; color:white" onclick="switchForm('loginForm')">Login</a></span>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function switchForm(formId) {
+            var loginForm = document.getElementById('loginForm');
+            var signupForm = document.getElementById('signupForm');
+
+            if (formId === 'loginForm') {
+                loginForm.style.display = 'block';
+                signupForm.style.display = 'none';
+            } else {
+                loginForm.style.display = 'none';
+                signupForm.style.display = 'block';
+            }
+        }     
+    </script>
+    <script>
+        // Function to hide the error message after three seconds
+        setTimeout(function() {
+            var errorMessage = document.getElementById('error_message');
+            if (errorMessage) {
+                errorMessage.style.display = 'none';
+            }
+        }, 3000); // 3000 milliseconds = 3 seconds
+    </script>
+    
+</body>
+</html>
